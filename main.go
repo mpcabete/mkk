@@ -90,7 +90,7 @@ func handleOverlay(c *gin.Context) {
 
 func servePreview(c *gin.Context, text string) {
 	scheme := "http"
-	if c.Request.TLS != nil {
+	if c.Request.TLS != nil || c.GetHeader("X-Forwarded-Proto") == "https" {
 		scheme = "https"
 	}
 	imageURL := fmt.Sprintf("%s://%s%s", scheme, c.Request.Host, c.Request.URL.String())
