@@ -82,7 +82,7 @@ func handleOverlay(c *gin.Context) {
 		return
 	}
 
-	if wantsHTML(c) {
+	if c.Query("raw") == "" && wantsHTML(c) {
 		servePreview(c, text)
 		return
 	}
@@ -108,7 +108,7 @@ func servePreview(c *gin.Context, text string) {
 	if strings.Contains(host, "localhost") || strings.Contains(host, "127.0.0.1") {
 		scheme = "http"
 	}
-	imageURL := fmt.Sprintf("%s://%s%s", scheme, host, c.Request.URL.String())
+	imageURL := fmt.Sprintf("%s://%s%s&raw=1", scheme, host, c.Request.URL.String())
 
 	html := fmt.Sprintf(`<!DOCTYPE html>
 <html prefix="og: https://ogp.me/ns#">
