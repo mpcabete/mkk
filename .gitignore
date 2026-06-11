@@ -1,0 +1,14 @@
+# Build
+/server
+/tmp/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+
+# Output
+output.png
