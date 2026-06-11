@@ -114,19 +114,19 @@ func servePreview(c *gin.Context, text string) {
 <html prefix="og: https://ogp.me/ns#">
 <head>
 <meta charset="utf-8">
-<title>%s</title>
-<meta property="og:title" content="%s">
-<meta property="og:description" content="Imagem com texto sobreposto: %s">
+<title>mkk</title>
+<meta property="og:title" content="mkk">
 <meta property="og:image" content="%s">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
 <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 <body style="margin:0;background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh">
-<img src="%s" alt="%s" style="max-width:100%%;height:auto">
+<img src="%s" alt="overlay" style="max-width:100%%;height:auto">
 </body>
-</html>`, text, text, text, imageURL, imageURL, text)
+</html>`, imageURL, imageURL)
 
 	c.Header("Content-Type", "text/html; charset=utf-8")
 	c.String(http.StatusOK, html)
