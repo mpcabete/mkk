@@ -52,9 +52,23 @@ func main() {
 	log.Fatal(r.Run(":8089"))
 }
 
+var ogCrawlers = []string{
+	"facebookexternalhit", "Facebot",
+	"WhatsApp", "TelegramBot",
+	"Twitterbot", "Slackbot",
+	"Discordbot", "LinkedInBot",
+	"SkypeUriPreview",
+}
+
 func wantsHTML(c *gin.Context) bool {
 	for _, part := range strings.Split(c.GetHeader("Accept"), ",") {
 		if strings.TrimSpace(part) == "text/html" {
+			return true
+		}
+	}
+	ua := c.GetHeader("User-Agent")
+	for _, bot := range ogCrawlers {
+		if strings.Contains(ua, bot) {
 			return true
 		}
 	}
@@ -89,7 +103,12 @@ func handleOverlay(c *gin.Context) {
 }
 
 func servePreview(c *gin.Context, text string) {
-	imageURL := fmt.Sprintf("//%s%s", c.Request.Host, c.Request.URL.String())
+	scheme := "https"
+	host := c.Request.Host
+	if strings.Contains(host, "localhost") || strings.Contains(host, "127.0.0.1") {
+		scheme = "http"
+	}
+	imageURL := fmt.Sprintf("%s://%s%s", scheme, host, c.Request.URL.String())
 
 	html := fmt.Sprintf(`<!DOCTYPE html>
 <html prefix="og: https://ogp.me/ns#">
